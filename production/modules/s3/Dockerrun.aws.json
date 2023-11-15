@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "147017997364.dkr.ecr.eu-north-1.amazonaws.com/booking-api-ecr:0.0.1",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "3333",
+        "HostPort": "80"
+      }
+    ]
+  }

@@ -29,9 +29,9 @@ module "ssh_keys" {
   source = "./modules/ssh"
 }
 
-module "secrets_manager" {
-  source = "./modules/secrets"
-}
+# module "secrets_manager" {
+#   source = "./modules/secrets"
+# }
 
 module "s3" {
   source = "./modules/s3"

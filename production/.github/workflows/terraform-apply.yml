@@ -1,0 +1,25 @@
+name: Terraform Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of the version to be deployed'
+        required: true
+        default: 'latest'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Apply
+      run: |
+        terraform init
+        terraform apply -auto-approve -var "tag=${{ github.event.inputs.tag }}"
