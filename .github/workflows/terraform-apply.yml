@@ -24,7 +24,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
     
     - name: Change to Environment Directory
-      run: cd ${{ github.event.inputs.environment }}
+      run: cd ${{ github.workspace }}/${{ github.event.inputs.environment }}
 
     - name: Terraform Apply
       run: |
