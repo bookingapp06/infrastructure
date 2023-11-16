@@ -6,6 +6,14 @@ terraform {
     }
   }
 
+  backend "s3" {
+    bucket         = "production-infrastructure-terraform-state-bucket-booking06"
+    key            = "state/terraform.tfstate"
+    region         = "eu-north-1"
+    # dynamodb_table = "production-infrastructure-terraform-lock-table"
+    encrypt        = true
+  }
+
   required_version = ">= 1.2.0"
 }
 
