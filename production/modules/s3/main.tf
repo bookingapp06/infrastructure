@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "ebs" {
 resource "aws_s3_object" "ebs_deployment" {
   depends_on = [local_file.ebs_docker_config]
   bucket     = aws_s3_bucket.ebs.id
-  key        = var.image_version == "init" ? "dummyKeyForTerraformInit" : "Dockerrun.aws.json"
+  key        = "Dockerrun.aws.json"
   source     = "${path.module}/Dockerrun.aws.json"
 
   etag = var.image_version
