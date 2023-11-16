@@ -8,7 +8,7 @@ resource "aws_s3_object" "ebs_deployment" {
   key        = "Dockerrun.aws.json"
   source     = "${path.module}/Dockerrun.aws.json"
   lifecycle {
-    replace_triggered_by = [ local_file.ebs_docker_config ]
+    replace_triggered_by = [ template_file.ebs_docker_config ]
   }
 }
 
