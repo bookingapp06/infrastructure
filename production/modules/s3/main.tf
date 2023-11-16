@@ -17,7 +17,7 @@ resource "aws_s3_object" "ebs_deployment" {
 data "template_file" "ebs_docker_config" {
   template = file("${path.module}/Dockerrun.aws.json.tpl")
   vars = {
-    image_name = "${var.ecr_url}:${var.image_version}"
+    image_name = var.image_version == "init" ? "20.9.0" : "${var.ecr_url}:${var.image_version}"
   }
 }
 
