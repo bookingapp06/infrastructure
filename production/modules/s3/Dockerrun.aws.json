@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-      "Name": "147017997364.dkr.ecr.eu-north-1.amazonaws.com/booking-api-ecr:0.0.1",
+      "Name": "147017997364.dkr.ecr.eu-north-1.amazonaws.com/booking-api-ecr:0.0.2",
       "Update": "true"
     },
     "Ports": [
