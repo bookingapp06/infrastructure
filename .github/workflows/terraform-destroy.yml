@@ -8,8 +8,8 @@ on:
         required: true
         default: 'production'
       image_version:
-        description: 'Commit hash of the version to be deployed'
-        required: true
+        description: 'To be destroyed'
+        default: 'destroy'
 
 jobs:
   deploy:
@@ -28,6 +28,14 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+
+    - name: Delete All Images from ECR Repository
+      run: |
+        REPOSITORY_NAME=booking-api-ecr
+        IMAGES=$(aws ecr list-images --repository-name $REPOSITORY_NAME --query 'imageIds[*]' --output json)
+        if [ "$IMAGES" != "[]" ]; then
+          aws ecr batch-delete-image --repository-name $REPOSITORY_NAME --image-ids "$IMAGES"
+        fi
 
     - name: Terraform Apply
       run: |
