@@ -8,9 +8,8 @@ on:
         required: true
         default: 'production'
       image_version:
-        description: 'Tag of the version to be deployed'
+        description: 'Commit hash of the version to be deployed'
         required: true
-        default: 'latest'
 
 jobs:
   deploy:
