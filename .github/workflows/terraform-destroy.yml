@@ -37,7 +37,8 @@ jobs:
           aws ecr batch-delete-image --repository-name $REPOSITORY_NAME --image-ids "$IMAGES"
         fi
 
-    - name: Terraform Apply
+    - name: Terraform Destroy
       run: |
         cd ${{ github.workspace }}/${{ github.event.inputs.environment }}
+        terraform init
         terraform destroy -auto-approve -var "image_version=${{ github.event.inputs.image_version }}"
