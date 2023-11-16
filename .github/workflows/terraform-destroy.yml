@@ -32,11 +32,18 @@ jobs:
     - name: Delete All Images from ECR Repository
       run: |
         REPOSITORY_NAME=booking-api-ecr
-        IMAGES=$(aws ecr list-images --repository-name $REPOSITORY_NAME --query 'imageIds[*]' --output json)
-        if [ "$IMAGES" != "[]" ]; then
-          aws ecr batch-delete-image --repository-name $REPOSITORY_NAME --image-ids "$IMAGES"
+        if aws ecr describe-repositories --repository-names "$REPOSITORY_NAME" > /dev/null 2>&1; then
+          echo "Repository $REPOSITORY_NAME exists. Proceeding with image deletion."
+          IMAGES=$(aws ecr list-images --repository-name $REPOSITORY_NAME --query 'imageIds[*]' --output json)
+          if [ "$IMAGES" != "[]" ]; then
+            aws ecr batch-delete-image --repository-name $REPOSITORY_NAME --image-ids "$IMAGES"
+          else
+            echo "No images to delete in $REPOSITORY_NAME."
+          fi
+        else
+          echo "Repository $REPOSITORY_NAME does not exist. Skipping image deletion."
         fi
-
+    
     - name: Terraform Destroy
       run: |
         cd ${{ github.workspace }}/${{ github.event.inputs.environment }}
