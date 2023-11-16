@@ -7,9 +7,9 @@ resource "aws_s3_object" "ebs_deployment" {
   bucket     = aws_s3_bucket.ebs.id
   key        = "Dockerrun.aws.json"
   source     = "${path.module}/Dockerrun.aws.json"
-  lifecycle {
-    replace_triggered_by = [ local_file.ebs_docker_config ]
-  }
+  # lifecycle {
+  #   replace_triggered_by = [ local_file.ebs_docker_config ]
+  # }
 }
 
 data "template_file" "ebs_docker_config" {
