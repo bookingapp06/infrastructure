@@ -9,9 +9,6 @@ resource "aws_s3_object" "ebs_deployment" {
   source     = "${path.module}/Dockerrun.aws.json"
 
   etag = var.image_version
-  # lifecycle {
-  #   replace_triggered_by = [ local_file.ebs_docker_config ]
-  # }
 }
 
 data "template_file" "ebs_docker_config" {
