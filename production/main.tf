@@ -23,7 +23,7 @@ provider "aws" {
 
 module "database" {
   source = "./modules/db"
-  # sg_id = module.security_groups.aws_security_group_bookingdbinstance_sg_id
+  sg_id = module.security_groups.aws_security_group_bookingdbinstance_sg_id
 }
 
 module "iam_elasticbeanstalk_role" {
@@ -49,9 +49,9 @@ module "s3" {
   image_version = var.image_version
 }
 
-# module "security_groups" {
-#   source = "./modules/security-groups"
-# }
+module "security_groups" {
+  source = "./modules/security-groups"
+}
 
 resource "aws_elastic_beanstalk_application" "bookingApi" {
   name        = "booking-api"
@@ -91,11 +91,11 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "t3.micro"
   }
 
-  # setting {
-  #   namespace = "aws:ec2:vpc"
-  #   name      = "SecurityGroups"
-  #   value     = module.security_groups.aws_security_group_ec2_to_bookingdbinstance_sg_id
-  # }
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "SecurityGroups"
+    value     = module.security_groups.aws_security_group_ec2_to_bookingdbinstance_sg_id
+  }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
