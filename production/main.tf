@@ -99,6 +99,30 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_NAME"
+    value     = "${module.database.db_name}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_USERNAME"
+    value     = "${module.database.db_username}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_PASSWORD"
+    value     = "${module.database.db_password}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_HOST"
+    value     = "${module.database.db_address}"
+  }
+
+  setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
     value     = module.ssh_keys.ssh_key_one_name
