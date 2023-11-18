@@ -10,7 +10,7 @@ resource "aws_db_instance" "bookingDB" {
   password             = "bookingapi"
   skip_final_snapshot  = true
   publicly_accessible  = false  # Set to false if you don't want the DB to be publicly accessible
-  vpc_security_group_ids = [var.sg_id]
+  # vpc_security_group_ids = [var.sg_id]
 
   tags = {
     Name = "booking-postgres-db"
