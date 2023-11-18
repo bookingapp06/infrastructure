@@ -23,6 +23,7 @@ provider "aws" {
 
 module "database" {
   source = "./modules/db"
+
   sg_id = module.security_groups.aws_security_group_bookingdbinstance_sg_id
 }
 
