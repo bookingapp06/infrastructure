@@ -10,8 +10,21 @@ resource "aws_db_instance" "bookingDB" {
   password             = "bookingapi"
   skip_final_snapshot  = true
   publicly_accessible  = false  # Set to false if you don't want the DB to be publicly accessible
+  vpc_security_group_ids = [aws_security_group.bookingdbinstance_sg.id]
 
   tags = {
     Name = "booking-postgres-db"
+  }
+}
+
+resource "aws_security_group" "bookingdbinstance_sg" {
+  name        = "bookingdbinstance"
+  description = "Allow inbound PostgreSQL traffic"
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
