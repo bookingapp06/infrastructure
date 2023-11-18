@@ -49,9 +49,9 @@ module "s3" {
   image_version = var.image_version
 }
 
-module "security_groups" {
-  source = "./modules/security-groups"
-}
+# module "security_groups" {
+#   source = "./modules/security-groups"
+# }
 
 resource "aws_elastic_beanstalk_application" "bookingApi" {
   name        = "booking-api"
