@@ -1,5 +1,5 @@
-resource "aws_db_parameter_group" "bookingDB_params" {
-  name   = "bookingDB_params"
+resource "aws_db_parameter_group" "bookingdb_params" {
+  name   = "bookingdb_params"
   family = "postgres15"
 
   parameter {
@@ -21,7 +21,7 @@ resource "aws_db_instance" "bookingDB" {
   skip_final_snapshot  = true
   publicly_accessible  = false  # Set to false if you don't want the DB to be publicly accessible
   vpc_security_group_ids = [var.sg_id]
-  parameter_group_name = aws_db_parameter_group.bookingDB_params.name
+  parameter_group_name = aws_db_parameter_group.bookingdb_params.name
 
   tags = {
     Name = "booking-postgres-db"
