@@ -39,10 +39,6 @@ module "ssh_keys" {
   source = "./modules/ssh"
 }
 
-# module "secrets_manager" {
-#   source = "./modules/secrets"
-# }
-
 module "s3" {
   source = "./modules/s3"
 
@@ -98,12 +94,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = module.iam_elasticbeanstalk_role.aws_iam_instance_profile_name
   }
 
-   setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "DB_URL"
-    value     = "postgres://${module.database.db_username}:${module.database.db_password}@${module.database.db_address}/${module.database.db_name}"
-  }
-
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DB_NAME"
@@ -133,4 +123,11 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "EC2KeyName"
     value     = module.ssh_keys.ssh_key_one_name
   }
+
+  // todo: decide if we use this aproach, or add a step into github actions, to log into secrets and pass the secrets as env vars at terraform apply
+  # setting {
+  #   namespace = "aws:elasticbeanstalk:application:environment"
+  #   name      = "DB_CREDENTIALS_SECRET_ARN"
+  #   value     = "arn:aws:secretsmanager:region:account-id:secret:your-db-credentials-secret-id"
+  # }
 }
