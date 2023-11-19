@@ -92,12 +92,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "t3.micro"
   }
 
-  # setting {
-  #   namespace = "aws:autoscaling:launchconfiguration"
-  #   name      = "SecurityGroups"
-  #   value     = module.security_groups.aws_security_group_ec2_to_bookingdbinstance_sg_id
-  # }
-
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
