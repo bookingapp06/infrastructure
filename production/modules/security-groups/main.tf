@@ -6,7 +6,7 @@ resource "aws_security_group" "bookingdbinstance_sg" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
