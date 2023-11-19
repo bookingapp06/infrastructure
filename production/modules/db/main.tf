@@ -1,5 +1,5 @@
 resource "aws_db_parameter_group" "bookingdb_params" {
-  name   = "bookingdb_params"
+  name   = "bookingdb-params"
   family = "postgres15"
 
   parameter {
