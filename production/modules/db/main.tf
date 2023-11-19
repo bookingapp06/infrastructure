@@ -1,3 +1,13 @@
+resource "aws_db_parameter_group" "bookingDB_params" {
+  name   = "bookingDB_params"
+  family = "postgres15"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = "0"
+  }
+}
+
 resource "aws_db_instance" "bookingDB" {
   allocated_storage    = 20  # 20 GB is the smallest size for production databases
   storage_type         = "gp2"
@@ -11,6 +21,7 @@ resource "aws_db_instance" "bookingDB" {
   skip_final_snapshot  = true
   publicly_accessible  = false  # Set to false if you don't want the DB to be publicly accessible
   vpc_security_group_ids = [var.sg_id]
+  parameter_group_name = aws_db_parameter_group.bookingDB_params.name
 
   tags = {
     Name = "booking-postgres-db"
