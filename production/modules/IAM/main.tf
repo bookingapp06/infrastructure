@@ -48,6 +48,7 @@ resource "aws_iam_role_policy" "eb_role_policy" {
         Action = [
           "secretsmanager:GetSecretValue",
         ],
+        // secrets arn from secrets manager, if we destroy/recreate the secret, the last piece of this string will change
         Resource = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1-muwfjg"
       },
     ]

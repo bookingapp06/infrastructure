@@ -50,6 +50,10 @@ module "security_groups" {
   source = "./modules/security-groups"
 }
 
+module "route53" {
+  source = "./modules/route53"
+}
+
 resource "aws_elastic_beanstalk_application" "bookingApi" {
   name        = "booking-api"
   description = "Booking api containing both main and management api"
@@ -69,6 +73,32 @@ resource "aws_elastic_beanstalk_environment" "env" {
   version_label       = aws_elastic_beanstalk_application_version.app_version.name
   tier                = "WebServer"
   wait_for_ready_timeout = "20m"
+
+  // using an application load balancer
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "LoadBalancerType"
+    value     = "application"
+  }
+
+  setting {
+    namespace = "aws:elb:listener"
+    name      = "ListenerEnabled"
+    value     = "true"
+  }
+
+  setting {
+    namespace = "aws:elb:listener:443"
+    name      = "ListenerProtocol"
+    value     = "HTTPS"
+  }
+
+  // associating the aws certificate manager with the https listener on the load balancer
+  setting {
+    namespace = "aws:elb:listener:443"
+    name      = "SSLCertificateId"
+    value     = module.route53.aws_certificate_manager_certification_arn
+  }
 
   setting {
     namespace = "aws:autoscaling:asg"
@@ -123,11 +153,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "EC2KeyName"
     value     = module.ssh_keys.ssh_key_one_name
   }
+}
 
-  // todo: decide if we use this aproach, or add a step into github actions, to log into secrets and pass the secrets as env vars at terraform apply
-  # setting {
-  #   namespace = "aws:elasticbeanstalk:application:environment"
-  #   name      = "DB_CREDENTIALS_SECRET_ARN"
-  #   value     = "arn:aws:secretsmanager:region:account-id:secret:your-db-credentials-secret-id"
-  # }
+resource "aws_route53_record" "www" {
+  zone_id = module.route53.hosted_zone_id
+  name    = "www.${module.route53.domain_name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_elastic_beanstalk_environment.env.cname]
 }
