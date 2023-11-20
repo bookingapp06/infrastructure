@@ -3,7 +3,7 @@ output "domain_name" {
 }
 
 output "hosted_zone_id" {
-  value = aws_route53_zone.booking_app_hosted_zone.zone_id
+  value = data.aws_route53_zone.booking_app_hosted_zone.zone_id
 }
 
 output "aws_certificate_manager_certification_arn" {
