@@ -2,9 +2,13 @@ locals {
   domain_name = "bookingapp06.link"
 }
 
+# resource "aws_route53_zone" "booking_app_hosted_zone" {
+#   name = "production-${local.domain_name}"
+# }
 
-resource "aws_route53_zone" "booking_app_hosted_zone" {
-  name = "production-${local.domain_name}"
+data "aws_route53_zone" "booking_app_hosted_zone" {
+  name         = local.domain_name
+  private_zone = false
 }
 
 resource "aws_acm_certificate" "booking_app_hosted_certificate" {
