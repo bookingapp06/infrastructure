@@ -4,7 +4,7 @@ locals {
 
 
 resource "aws_route53_zone" "booking_app_hosted_zone" {
-  name = local.domain_name
+  name = "production-${local.domain_name}"
 }
 
 resource "aws_acm_certificate" "booking_app_hosted_certificate" {
