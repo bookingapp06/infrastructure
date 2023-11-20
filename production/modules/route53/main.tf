@@ -16,6 +16,7 @@ resource "aws_acm_certificate" "booking_app_hosted_certificate" {
   }
 }
 
+// domain name is a set of unique values, we had to change it to a map so we can iterate through them
 resource "aws_route53_record" "cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.booking_app_hosted_certificate.domain_validation_options : dvo.domain_name => {
@@ -32,8 +33,8 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
 }
 
-
+// foreach above created multiple instances of the certi validation, so we have to loop through them to validate them
 resource "aws_acm_certificate_validation" "my_cert" {
   certificate_arn         = aws_acm_certificate.booking_app_hosted_certificate.arn
-  validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
+  validation_record_fqdns = [for k, v in aws_route53_record.cert_validation : v.fqdn]
 }
