@@ -19,9 +19,9 @@ resource "aws_db_instance" "bookingDB" {
   publicly_accessible  = false  # Set to false if you don't want the DB to be publicly accessible
   vpc_security_group_ids = [var.sg_id]
   parameter_group_name = aws_db_parameter_group.bookingdb_params.name
-  username = local.example_secret["BOOKING_API_DB_USERNAME"]
-  password = local.example_secret["BOOKING_API_DB_PASSWORD"]
-  db_name = local.example_secret["BOOKING_API_DB_NAME"]
+  username = local.stored_secrets["BOOKING_API_DB_USERNAME"]
+  password = local.stored_secrets["BOOKING_API_DB_PASSWORD"]
+  db_name = local.stored_secrets["BOOKING_API_DB_NAME"]
 
   tags = {
     Name = "booking-postgres-db"
