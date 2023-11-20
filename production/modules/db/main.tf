@@ -9,7 +9,7 @@ resource "aws_db_parameter_group" "bookingdb_params" {
 }
 
 data "aws_secretsmanager_secret_version" "storedSecrets" {
-  secret_id = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1"
+  secret_id = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1-muwfjg"
 }
 
 locals {

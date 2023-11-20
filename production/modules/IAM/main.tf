@@ -48,7 +48,7 @@ resource "aws_iam_role_policy" "eb_role_policy" {
         Action = [
           "secretsmanager:GetSecretValue",
         ],
-        Resource = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1"
+        Resource = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1-muwfjg"
       },
     ]
   })
