@@ -8,6 +8,14 @@ resource "aws_db_parameter_group" "bookingdb_params" {
   }
 }
 
+data "aws_secretsmanager_secret_version" "storedSecrets" {
+  secret_id = "arn:aws:secretsmanager:eu-north-1:147017997364:secret:booking_api_production_secrets_v1"
+}
+
+locals {
+  stored_secrets = jsondecode(data.aws_secretsmanager_secret_version.storedSecrets.secret_string)
+}
+
 resource "aws_db_instance" "bookingDB" {
   allocated_storage    = 20  # 20 GB is the smallest size for production databases
   storage_type         = "gp2"
