@@ -160,10 +160,21 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 }
 
-resource "aws_route53_record" "main_www" {
+# resource "aws_route53_record" "main_www" {
+#   zone_id = module.route53.hosted_zone_id
+#   name    = module.route53.domain_name
+#   type    = "CNAME"
+#   ttl     = "300"
+#   records = [aws_elastic_beanstalk_environment.env.cname]
+# }
+
+resource "aws_route53_record" "main_domain" {
   zone_id = module.route53.hosted_zone_id
   name    = module.route53.domain_name
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_elastic_beanstalk_environment.env.cname]
+  type    = "A"
+  alias {
+    name                   = aws_elastic_beanstalk_environment.env.cname
+    zone_id                = aws_elastic_beanstalk_environment.env.hosted_zone_id
+    evaluate_target_health = false
+  }
 }
