@@ -160,22 +160,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 }
 
-resource "aws_route53_record" "main" {
-  zone_id = module.route53.hosted_zone_id
-  name    = "www.${module.route53.domain_name}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_elastic_beanstalk_environment.env.cname]
-}
-
-resource "aws_route53_record" "subdomain_test" {
-  zone_id = module.route53.hosted_zone_id
-  name    = "test.${module.route53.domain_name}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_elastic_beanstalk_environment.env.cname]
-}
-
 data "aws_elastic_beanstalk_hosted_zone" "current" {}
 resource "aws_route53_record" "subdomain" {
   zone_id = module.route53.hosted_zone_id
@@ -186,4 +170,14 @@ resource "aws_route53_record" "subdomain" {
     zone_id                = data.aws_elastic_beanstalk_hosted_zone.current.id
     evaluate_target_health = true
   }
+}
+
+resource "aws_route53_record" "subdomain_records" {
+  for_each = { for subdomain in module.route53.subdomains : subdomain => subdomain }
+
+  zone_id = module.route53.hosted_zone_id
+  name    = "${each.key}.${module.route53.domain_name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_elastic_beanstalk_environment.env.cname]
 }
