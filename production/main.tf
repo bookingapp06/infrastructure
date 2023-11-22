@@ -81,44 +81,26 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "application"
   }
 
-  # setting {
-  #   namespace = "aws:elbv2:listener:default"
-  #   name      = "ListenerEnabled"
-  #   value     = "false"
-  # }
-
-  # setting {
-  #   namespace = "aws:elbv2:listener:443"
-  #   name      = "ListenerEnabled"
-  #   value     = "true"
-  # }
-
-  # setting {
-  #   namespace = "aws:elbv2:listener:443"
-  #   name      = "Protocol"
-  #   value     = "HTTPS"
-  # }
-
-  # setting {
-  #   namespace = "aws:elbv2:listener:443"
-  #   name      = "SSLCertificateArns"
-  #   value     = module.route53.aws_certificate_manager_certification_arn
-  # }
-
   setting {
     namespace = "aws:elbv2:listener:default"
+    name      = "ListenerEnabled"
+    value     = "false"
+  }
+
+  setting {
+    namespace = "aws:elbv2:listener:443"
     name      = "ListenerEnabled"
     value     = "true"
   }
 
   setting {
-    namespace = "aws:elbv2:listener:default"
+    namespace = "aws:elbv2:listener:443"
     name      = "Protocol"
     value     = "HTTPS"
   }
 
   setting {
-    namespace = "aws:elbv2:listener:default"
+    namespace = "aws:elbv2:listener:443"
     name      = "SSLCertificateArns"
     value     = module.route53.aws_certificate_manager_certification_arn
   }
