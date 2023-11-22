@@ -94,7 +94,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
-    namespace = "aws:elb:listener:443"
+    namespace = "aws:elbv2:listener:443"
     name      = "SSLCertificateArns"
     value     = module.route53.aws_certificate_manager_certification_arn
   }
