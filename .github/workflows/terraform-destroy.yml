@@ -27,7 +27,7 @@ jobs:
         aws-region: eu-north-1
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Delete All Images from ECR Repository
       run: |
