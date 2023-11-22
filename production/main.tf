@@ -93,6 +93,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "HTTPS"
   }
 
+  setting {
+    namespace = "aws:elb:listener:443"
+    name      = "InstancePort"
+    value     = "443"
+  }
+
   // associating the aws certificate manager with the https listener on the load balancer
   setting {
     namespace = "aws:elb:listener:443"
