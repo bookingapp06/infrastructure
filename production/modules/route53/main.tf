@@ -3,12 +3,12 @@ locals {
 }
 
 data "aws_route53_zone" "booking_app_hosted_zone" {
-  name         = "*.${local.domain_name}"
+  name         = local.domain_name
   private_zone = false
 }
 
 resource "aws_acm_certificate" "booking_app_hosted_certificate" {
-  domain_name       = local.domain_name
+  domain_name       = "*.${local.domain_name}"
   validation_method = "DNS"
 
   lifecycle {
