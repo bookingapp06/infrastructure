@@ -82,7 +82,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
-    namespace = "aws:elb:listener"
+    namespace = "aws:elb:listener:443"
     name      = "ListenerEnabled"
     value     = "true"
   }
@@ -99,7 +99,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "443"
   }
 
-  // associating the aws certificate manager with the https listener on the load balancer
   setting {
     namespace = "aws:elb:listener:443"
     name      = "SSLCertificateId"
