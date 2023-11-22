@@ -10,7 +10,7 @@ data "aws_route53_zone" "booking_app_hosted_zone" {
 resource "aws_acm_certificate" "booking_app_hosted_certificate" {
   domain_name       = local.domain_name
   validation_method = "DNS"
-  subject_alternative_names = ["*.${local.domain_name}"]
+  # subject_alternative_names = ["*.${local.domain_name}"]
 
   lifecycle {
     create_before_destroy = true
