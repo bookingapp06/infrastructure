@@ -17,15 +17,3 @@ resource "aws_security_group" "bookingdbinstance_sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
-
-# resource "aws_security_group" "allow_https" {
-#   name        = "allowHttpsForBooking"
-#   description = "Allow inbound https traffic"
-
-#   ingress {
-#     from_port   = 443
-#     to_port     = 443
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
