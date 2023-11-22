@@ -81,26 +81,44 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "application"
   }
 
-  setting {
-    namespace = "aws:elbv2:listener:default"
-    name      = "ListenerEnabled"
-    value     = "false"
-  }
+  # setting {
+  #   namespace = "aws:elbv2:listener:default"
+  #   name      = "ListenerEnabled"
+  #   value     = "false"
+  # }
+
+  # setting {
+  #   namespace = "aws:elbv2:listener:443"
+  #   name      = "ListenerEnabled"
+  #   value     = "true"
+  # }
+
+  # setting {
+  #   namespace = "aws:elbv2:listener:443"
+  #   name      = "Protocol"
+  #   value     = "HTTPS"
+  # }
+
+  # setting {
+  #   namespace = "aws:elbv2:listener:443"
+  #   name      = "SSLCertificateArns"
+  #   value     = module.route53.aws_certificate_manager_certification_arn
+  # }
 
   setting {
-    namespace = "aws:elbv2:listener:443"
+    namespace = "aws:elbv2:listener:default"
     name      = "ListenerEnabled"
     value     = "true"
   }
 
   setting {
-    namespace = "aws:elbv2:listener:443"
+    namespace = "aws:elbv2:listener:default"
     name      = "Protocol"
     value     = "HTTPS"
   }
 
   setting {
-    namespace = "aws:elbv2:listener:443"
+    namespace = "aws:elbv2:listener:default"
     name      = "SSLCertificateArns"
     value     = module.route53.aws_certificate_manager_certification_arn
   }
@@ -174,7 +192,7 @@ resource "aws_route53_record" "main_domain" {
   type    = "A"
   alias {
     name                   = aws_elastic_beanstalk_environment.env.cname
-    zone_id                = aws_elastic_beanstalk_environment.env.hosted_zone_id
-    evaluate_target_health = false
+    zone_id                = module.route53.hosted_zone_id
+    evaluate_target_health = true
   }
 }
