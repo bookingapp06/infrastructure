@@ -160,18 +160,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 }
 
-data "aws_elastic_beanstalk_hosted_zone" "current" {}
-resource "aws_route53_record" "subdomain" {
-  zone_id = module.route53.hosted_zone_id
-  name    = ""
-  type    = "A"
-  alias {
-    name                   = aws_elastic_beanstalk_environment.env.cname
-    zone_id                = data.aws_elastic_beanstalk_hosted_zone.current.id
-    evaluate_target_health = true
-  }
-}
-
 resource "aws_route53_record" "subdomain_records" {
   for_each = { for subdomain in module.route53.subdomains : subdomain => subdomain }
 
@@ -181,3 +169,16 @@ resource "aws_route53_record" "subdomain_records" {
   ttl     = "300"
   records = [aws_elastic_beanstalk_environment.env.cname]
 }
+
+// to be used when hosting static app to s3
+# data "aws_elastic_beanstalk_hosted_zone" "current" {}
+# resource "aws_route53_record" "subdomain" {
+#   zone_id = module.route53.hosted_zone_id
+#   name    = ""
+#   type    = "A"
+#   alias {
+#     name                   = aws_elastic_beanstalk_environment.env.cname
+#     zone_id                = data.aws_elastic_beanstalk_hosted_zone.current.id
+#     evaluate_target_health = true
+#   }
+# }
