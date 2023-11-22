@@ -82,26 +82,20 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
-    namespace = "aws:elb:listener:443"
+    namespace = "aws:elbv2:listener:443"
     name      = "ListenerEnabled"
     value     = "true"
   }
 
   setting {
-    namespace = "aws:elb:listener:443"
-    name      = "ListenerProtocol"
+    namespace = "aws:elbv2:listener:443"
+    name      = "Protocol"
     value     = "HTTPS"
   }
 
   setting {
     namespace = "aws:elb:listener:443"
-    name      = "InstancePort"
-    value     = "443"
-  }
-
-  setting {
-    namespace = "aws:elb:listener:443"
-    name      = "SSLCertificateId"
+    name      = "SSLCertificateArns"
     value     = module.route53.aws_certificate_manager_certification_arn
   }
 
